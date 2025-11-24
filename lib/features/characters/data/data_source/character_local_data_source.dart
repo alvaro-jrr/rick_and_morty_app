@@ -4,13 +4,13 @@ import 'package:drift/drift.dart';
 import 'package:rick_and_morty_app/core/db/database.dart';
 import 'package:rick_and_morty_app/core/error/failures.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/character_model.dart';
-import 'package:rick_and_morty_app/features/characters/domain/entities/character_query.dart';
+import 'package:rick_and_morty_app/features/characters/data/models/character_query_model.dart';
 import 'package:rick_and_morty_app/features/characters/domain/errors/failures.dart';
 
 abstract class CharacterLocalDataSource {
   /// Gets the characters that matches the [query].
   Future<Either<Failure, List<CharacterModel>>> getCharacters(
-    CharacterQuery query,
+    CharacterQueryModel query,
   );
 
   /// Saves the [character].
@@ -41,7 +41,7 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
 
   @override
   Future<Either<Failure, List<CharacterModel>>> getCharacters(
-    CharacterQuery query,
+    CharacterQueryModel query,
   ) async {
     final charactersSelect = database.select(database.characters);
 
