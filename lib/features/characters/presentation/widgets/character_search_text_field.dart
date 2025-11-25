@@ -31,8 +31,10 @@ class _CharacterSearchTextFieldState extends State<CharacterSearchTextField> {
       controller: _searchController,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Color(0xFFe5e7eb),
-        border: OutlineInputBorder(borderSide: BorderSide.none),
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+        ),
         prefixIcon: Icon(Icons.search),
         hintText: 'Buscar por nombre',
         suffixIcon: ValueListenableBuilder(

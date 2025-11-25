@@ -38,7 +38,7 @@ class CharactersApiView extends StatelessWidget {
         ),
         scrolledUnderElevation: 0,
         elevation: 0,
-        backgroundColor: Color(0xFF27272a),
+        backgroundColor: Theme.of(context).colorScheme.inverseSurface,
         surfaceTintColor: Colors.transparent,
       ),
       body: Column(
