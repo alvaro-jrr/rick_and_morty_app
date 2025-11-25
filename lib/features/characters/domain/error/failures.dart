@@ -17,3 +17,9 @@ class SaveCharacterFailure extends Failure {
     super.message = "Ocurrió un error al guardar personaje",
   ]);
 }
+
+class NoCharactersFoundFailure extends Failure {
+  const NoCharactersFoundFailure([
+    super.message = "No se encontraron personajes",
+  ]);
+}

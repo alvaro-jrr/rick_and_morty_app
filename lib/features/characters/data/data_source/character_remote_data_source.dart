@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:rick_and_morty_app/core/error/failures.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/character_filter_model.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/paginated_character_model.dart';
-import 'package:rick_and_morty_app/features/characters/domain/errors/failures.dart';
+import 'package:rick_and_morty_app/features/characters/domain/error/failures.dart';
 
 abstract class CharacterRemoteDataSource {
   /// Gets the characters that matches the [filter].

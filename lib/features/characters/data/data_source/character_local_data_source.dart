@@ -3,9 +3,9 @@ import 'package:drift/drift.dart';
 
 import 'package:rick_and_morty_app/core/db/database.dart';
 import 'package:rick_and_morty_app/core/error/failures.dart';
-import 'package:rick_and_morty_app/features/characters/data/models/character_model.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/character_filter_model.dart';
-import 'package:rick_and_morty_app/features/characters/domain/errors/failures.dart';
+import 'package:rick_and_morty_app/features/characters/data/models/character_model.dart';
+import 'package:rick_and_morty_app/features/characters/domain/error/failures.dart';
 
 abstract class CharacterLocalDataSource {
   /// Gets the characters that matches the [filter].
