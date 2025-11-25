@@ -28,7 +28,7 @@ class CharacterRepositoryImpl implements CharacterRepository {
   }
 
   @override
-  Future<Either<Failure, List<Character>>> getLocalCharacters({
+  Future<Either<Failure, PaginatedCharacter>> getLocalCharacters({
     int page = 1,
     int limit = 20,
     CharacterFilter? filter,

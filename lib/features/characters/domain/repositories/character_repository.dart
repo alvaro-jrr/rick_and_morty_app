@@ -13,7 +13,7 @@ abstract class CharacterRepository {
   });
 
   /// Gets the characters stored locally that matches the [filter].
-  Future<Either<Failure, List<Character>>> getLocalCharacters({
+  Future<Either<Failure, PaginatedCharacter>> getLocalCharacters({
     int page,
     int limit,
     CharacterFilter? filter,
