@@ -30,7 +30,7 @@ class CharacterRemoteDataSourceImpl implements CharacterRemoteDataSource {
     try {
       final response = await client.get(
         Uri.https('rickandmortyapi.com', '/api/character', {
-          'page': page,
+          'page': page.toString(),
           if (filter != null) ...filter.toQueryParams(),
         }),
       );
