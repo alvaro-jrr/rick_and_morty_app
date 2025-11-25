@@ -35,6 +35,11 @@ class CharacterRemoteDataSourceImpl implements CharacterRemoteDataSource {
         }),
       );
 
+      // Handle when no characters were found.
+      if (response.statusCode != 200) {
+        return Either.left(NoCharactersFoundFailure());
+      }
+
       final decodedResponse = jsonDecode(response.body);
 
       final paginatedCharacter = PaginatedCharacterModel.fromJson(
@@ -42,7 +47,7 @@ class CharacterRemoteDataSourceImpl implements CharacterRemoteDataSource {
       );
 
       return Either.right(paginatedCharacter);
-    } on Exception {
+    } catch (e) {
       return Either.left(GetCharactersFailure());
     }
   }
