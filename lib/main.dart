@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:rick_and_morty_app/core/themes/app_theme.dart';
 import 'package:rick_and_morty_app/di.dart' as di;
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_api_page.dart';
+import 'package:rick_and_morty_app/router/app_router.dart';
 
 void main() {
   di.init();
@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: AppTheme().light(),
-      home: CharactersApiPage(),
+      routerConfig: appRouter,
     );
   }
 }
