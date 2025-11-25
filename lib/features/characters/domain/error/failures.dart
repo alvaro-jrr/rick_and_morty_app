@@ -20,6 +20,6 @@ class SaveCharacterFailure extends Failure {
 
 class NoCharactersFoundFailure extends Failure {
   const NoCharactersFoundFailure([
-    super.message = "No se encontraron personajes",
+    super.message = "No se encontraron personajes con los filtros aplicados",
   ]);
 }

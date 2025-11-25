@@ -1,5 +1,29 @@
 import 'package:equatable/equatable.dart';
 
+enum CharacterStatus {
+  alive,
+  dead,
+  unknown;
+
+  /// Returns the [label].
+  String get label {
+    return switch (this) {
+      CharacterStatus.alive => 'Vivo',
+      CharacterStatus.dead => 'Muerto',
+      CharacterStatus.unknown => 'Desconocido',
+    };
+  }
+
+  /// Wether the character is [alive].
+  bool isAlive() => this == CharacterStatus.alive;
+
+  /// Wether the character is [dead].
+  bool isDead() => this == CharacterStatus.dead;
+
+  /// Wether the character status is [unknown].
+  bool isUnknown() => this == CharacterStatus.unknown;
+}
+
 class Character extends Equatable {
   /// The character [id].
   final int id;
@@ -8,7 +32,7 @@ class Character extends Equatable {
   final String name;
 
   /// The character [status].
-  final String status;
+  final CharacterStatus status;
 
   /// The character [species].
   final String species;
