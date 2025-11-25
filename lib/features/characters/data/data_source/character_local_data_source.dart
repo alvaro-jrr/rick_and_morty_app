@@ -4,14 +4,16 @@ import 'package:drift/drift.dart';
 import 'package:rick_and_morty_app/core/db/database.dart';
 import 'package:rick_and_morty_app/core/error/failures.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/character_model.dart';
-import 'package:rick_and_morty_app/features/characters/data/models/character_query_model.dart';
+import 'package:rick_and_morty_app/features/characters/data/models/character_filter_model.dart';
 import 'package:rick_and_morty_app/features/characters/domain/errors/failures.dart';
 
 abstract class CharacterLocalDataSource {
-  /// Gets the characters that matches the [query].
-  Future<Either<Failure, List<CharacterModel>>> getCharacters(
-    CharacterQueryModel query,
-  );
+  /// Gets the characters that matches the [filter].
+  Future<Either<Failure, List<CharacterModel>>> getCharacters({
+    required int page,
+    required int limit,
+    CharacterFilterModel? filter,
+  });
 
   /// Saves the [character].
   Future<Either<Failure, void>> saveCharacter(CharacterModel character);
@@ -40,17 +42,19 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
   }
 
   @override
-  Future<Either<Failure, List<CharacterModel>>> getCharacters(
-    CharacterQueryModel query,
-  ) async {
+  Future<Either<Failure, List<CharacterModel>>> getCharacters({
+    required int page,
+    required int limit,
+    CharacterFilterModel? filter,
+  }) async {
     final charactersSelect = database.select(database.characters);
 
     // Set the limit.
-    charactersSelect.limit(query.limit, offset: query.page - 0);
+    charactersSelect.limit(limit, offset: page - 0);
 
     // Add filters.
-    if (query.name.isNotEmpty) {
-      charactersSelect.where((c) => c.name.like('%${query.name}%'));
+    if (filter?.name != null) {
+      charactersSelect.where((c) => c.name.like('%${filter!.name}%'));
     }
 
     try {
