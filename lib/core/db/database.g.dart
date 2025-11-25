@@ -3,12 +3,12 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
-class $CharactersTable extends Characters
-    with TableInfo<$CharactersTable, Character> {
+class $CharacterItemsTable extends CharacterItems
+    with TableInfo<$CharacterItemsTable, CharacterItem> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $CharactersTable(this.attachedDatabase, [this._alias]);
+  $CharacterItemsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -78,10 +78,10 @@ class $CharactersTable extends Characters
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'characters';
+  static const String $name = 'character_items';
   @override
   VerificationContext validateIntegrity(
-    Insertable<Character> instance, {
+    Insertable<CharacterItem> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -135,9 +135,9 @@ class $CharactersTable extends Characters
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Character map(Map<String, dynamic> data, {String? tablePrefix}) {
+  CharacterItem map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Character(
+    return CharacterItem(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -166,19 +166,19 @@ class $CharactersTable extends Characters
   }
 
   @override
-  $CharactersTable createAlias(String alias) {
-    return $CharactersTable(attachedDatabase, alias);
+  $CharacterItemsTable createAlias(String alias) {
+    return $CharacterItemsTable(attachedDatabase, alias);
   }
 }
 
-class Character extends DataClass implements Insertable<Character> {
+class CharacterItem extends DataClass implements Insertable<CharacterItem> {
   final int id;
   final String name;
   final String status;
   final String species;
   final String gender;
   final String image;
-  const Character({
+  const CharacterItem({
     required this.id,
     required this.name,
     required this.status,
@@ -198,8 +198,8 @@ class Character extends DataClass implements Insertable<Character> {
     return map;
   }
 
-  CharactersCompanion toCompanion(bool nullToAbsent) {
-    return CharactersCompanion(
+  CharacterItemsCompanion toCompanion(bool nullToAbsent) {
+    return CharacterItemsCompanion(
       id: Value(id),
       name: Value(name),
       status: Value(status),
@@ -209,12 +209,12 @@ class Character extends DataClass implements Insertable<Character> {
     );
   }
 
-  factory Character.fromJson(
+  factory CharacterItem.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Character(
+    return CharacterItem(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       status: serializer.fromJson<String>(json['status']),
@@ -236,14 +236,14 @@ class Character extends DataClass implements Insertable<Character> {
     };
   }
 
-  Character copyWith({
+  CharacterItem copyWith({
     int? id,
     String? name,
     String? status,
     String? species,
     String? gender,
     String? image,
-  }) => Character(
+  }) => CharacterItem(
     id: id ?? this.id,
     name: name ?? this.name,
     status: status ?? this.status,
@@ -251,8 +251,8 @@ class Character extends DataClass implements Insertable<Character> {
     gender: gender ?? this.gender,
     image: image ?? this.image,
   );
-  Character copyWithCompanion(CharactersCompanion data) {
-    return Character(
+  CharacterItem copyWithCompanion(CharacterItemsCompanion data) {
+    return CharacterItem(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       status: data.status.present ? data.status.value : this.status,
@@ -264,7 +264,7 @@ class Character extends DataClass implements Insertable<Character> {
 
   @override
   String toString() {
-    return (StringBuffer('Character(')
+    return (StringBuffer('CharacterItem(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('status: $status, ')
@@ -280,7 +280,7 @@ class Character extends DataClass implements Insertable<Character> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Character &&
+      (other is CharacterItem &&
           other.id == this.id &&
           other.name == this.name &&
           other.status == this.status &&
@@ -289,14 +289,14 @@ class Character extends DataClass implements Insertable<Character> {
           other.image == this.image);
 }
 
-class CharactersCompanion extends UpdateCompanion<Character> {
+class CharacterItemsCompanion extends UpdateCompanion<CharacterItem> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> status;
   final Value<String> species;
   final Value<String> gender;
   final Value<String> image;
-  const CharactersCompanion({
+  const CharacterItemsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.status = const Value.absent(),
@@ -304,7 +304,7 @@ class CharactersCompanion extends UpdateCompanion<Character> {
     this.gender = const Value.absent(),
     this.image = const Value.absent(),
   });
-  CharactersCompanion.insert({
+  CharacterItemsCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required String status,
@@ -316,7 +316,7 @@ class CharactersCompanion extends UpdateCompanion<Character> {
        species = Value(species),
        gender = Value(gender),
        image = Value(image);
-  static Insertable<Character> custom({
+  static Insertable<CharacterItem> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? status,
@@ -334,7 +334,7 @@ class CharactersCompanion extends UpdateCompanion<Character> {
     });
   }
 
-  CharactersCompanion copyWith({
+  CharacterItemsCompanion copyWith({
     Value<int>? id,
     Value<String>? name,
     Value<String>? status,
@@ -342,7 +342,7 @@ class CharactersCompanion extends UpdateCompanion<Character> {
     Value<String>? gender,
     Value<String>? image,
   }) {
-    return CharactersCompanion(
+    return CharacterItemsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       status: status ?? this.status,
@@ -378,7 +378,7 @@ class CharactersCompanion extends UpdateCompanion<Character> {
 
   @override
   String toString() {
-    return (StringBuffer('CharactersCompanion(')
+    return (StringBuffer('CharacterItemsCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('status: $status, ')
@@ -393,16 +393,16 @@ class CharactersCompanion extends UpdateCompanion<Character> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $CharactersTable characters = $CharactersTable(this);
+  late final $CharacterItemsTable characterItems = $CharacterItemsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [characters];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [characterItems];
 }
 
-typedef $$CharactersTableCreateCompanionBuilder =
-    CharactersCompanion Function({
+typedef $$CharacterItemsTableCreateCompanionBuilder =
+    CharacterItemsCompanion Function({
       Value<int> id,
       required String name,
       required String status,
@@ -410,8 +410,8 @@ typedef $$CharactersTableCreateCompanionBuilder =
       required String gender,
       required String image,
     });
-typedef $$CharactersTableUpdateCompanionBuilder =
-    CharactersCompanion Function({
+typedef $$CharacterItemsTableUpdateCompanionBuilder =
+    CharacterItemsCompanion Function({
       Value<int> id,
       Value<String> name,
       Value<String> status,
@@ -420,9 +420,9 @@ typedef $$CharactersTableUpdateCompanionBuilder =
       Value<String> image,
     });
 
-class $$CharactersTableFilterComposer
-    extends Composer<_$AppDatabase, $CharactersTable> {
-  $$CharactersTableFilterComposer({
+class $$CharacterItemsTableFilterComposer
+    extends Composer<_$AppDatabase, $CharacterItemsTable> {
+  $$CharacterItemsTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -460,9 +460,9 @@ class $$CharactersTableFilterComposer
   );
 }
 
-class $$CharactersTableOrderingComposer
-    extends Composer<_$AppDatabase, $CharactersTable> {
-  $$CharactersTableOrderingComposer({
+class $$CharacterItemsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CharacterItemsTable> {
+  $$CharacterItemsTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -500,9 +500,9 @@ class $$CharactersTableOrderingComposer
   );
 }
 
-class $$CharactersTableAnnotationComposer
-    extends Composer<_$AppDatabase, $CharactersTable> {
-  $$CharactersTableAnnotationComposer({
+class $$CharacterItemsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CharacterItemsTable> {
+  $$CharacterItemsTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -528,35 +528,37 @@ class $$CharactersTableAnnotationComposer
       $composableBuilder(column: $table.image, builder: (column) => column);
 }
 
-class $$CharactersTableTableManager
+class $$CharacterItemsTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $CharactersTable,
-          Character,
-          $$CharactersTableFilterComposer,
-          $$CharactersTableOrderingComposer,
-          $$CharactersTableAnnotationComposer,
-          $$CharactersTableCreateCompanionBuilder,
-          $$CharactersTableUpdateCompanionBuilder,
+          $CharacterItemsTable,
+          CharacterItem,
+          $$CharacterItemsTableFilterComposer,
+          $$CharacterItemsTableOrderingComposer,
+          $$CharacterItemsTableAnnotationComposer,
+          $$CharacterItemsTableCreateCompanionBuilder,
+          $$CharacterItemsTableUpdateCompanionBuilder,
           (
-            Character,
-            BaseReferences<_$AppDatabase, $CharactersTable, Character>,
+            CharacterItem,
+            BaseReferences<_$AppDatabase, $CharacterItemsTable, CharacterItem>,
           ),
-          Character,
+          CharacterItem,
           PrefetchHooks Function()
         > {
-  $$CharactersTableTableManager(_$AppDatabase db, $CharactersTable table)
-    : super(
+  $$CharacterItemsTableTableManager(
+    _$AppDatabase db,
+    $CharacterItemsTable table,
+  ) : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$CharactersTableFilterComposer($db: db, $table: table),
+              $$CharacterItemsTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$CharactersTableOrderingComposer($db: db, $table: table),
+              $$CharacterItemsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$CharactersTableAnnotationComposer($db: db, $table: table),
+              $$CharacterItemsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
@@ -565,7 +567,7 @@ class $$CharactersTableTableManager
                 Value<String> species = const Value.absent(),
                 Value<String> gender = const Value.absent(),
                 Value<String> image = const Value.absent(),
-              }) => CharactersCompanion(
+              }) => CharacterItemsCompanion(
                 id: id,
                 name: name,
                 status: status,
@@ -581,7 +583,7 @@ class $$CharactersTableTableManager
                 required String species,
                 required String gender,
                 required String image,
-              }) => CharactersCompanion.insert(
+              }) => CharacterItemsCompanion.insert(
                 id: id,
                 name: name,
                 status: status,
@@ -597,24 +599,27 @@ class $$CharactersTableTableManager
       );
 }
 
-typedef $$CharactersTableProcessedTableManager =
+typedef $$CharacterItemsTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $CharactersTable,
-      Character,
-      $$CharactersTableFilterComposer,
-      $$CharactersTableOrderingComposer,
-      $$CharactersTableAnnotationComposer,
-      $$CharactersTableCreateCompanionBuilder,
-      $$CharactersTableUpdateCompanionBuilder,
-      (Character, BaseReferences<_$AppDatabase, $CharactersTable, Character>),
-      Character,
+      $CharacterItemsTable,
+      CharacterItem,
+      $$CharacterItemsTableFilterComposer,
+      $$CharacterItemsTableOrderingComposer,
+      $$CharacterItemsTableAnnotationComposer,
+      $$CharacterItemsTableCreateCompanionBuilder,
+      $$CharacterItemsTableUpdateCompanionBuilder,
+      (
+        CharacterItem,
+        BaseReferences<_$AppDatabase, $CharacterItemsTable, CharacterItem>,
+      ),
+      CharacterItem,
       PrefetchHooks Function()
     >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$CharactersTableTableManager get characters =>
-      $$CharactersTableTableManager(_db, _db.characters);
+  $$CharacterItemsTableTableManager get characterItems =>
+      $$CharacterItemsTableTableManager(_db, _db.characterItems);
 }

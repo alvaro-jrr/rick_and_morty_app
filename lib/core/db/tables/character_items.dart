@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-class Characters extends Table {
+class CharacterItems extends Table {
   IntColumn get id => integer()();
   TextColumn get name => text()();
   TextColumn get status => text()();

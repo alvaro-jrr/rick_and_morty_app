@@ -24,7 +24,7 @@ class CharacterModel extends Character {
   }
 
   /// Returns a [CharacterModel] from the given [character].
-  factory CharacterModel.fromDatabase(db.Character character) {
+  factory CharacterModel.fromDatabase(db.CharacterItem character) {
     return CharacterModel(
       id: character.id,
       name: character.name,
@@ -35,9 +35,9 @@ class CharacterModel extends Character {
     );
   }
 
-  /// Returns a [db.Character] instance from the current model.
-  db.Character toDatabase() {
-    return db.Character(
+  /// Returns a [db.CharacterItem] instance from the current model.
+  db.CharacterItem toDatabase() {
+    return db.CharacterItem(
       id: id,
       name: name,
       status: status,

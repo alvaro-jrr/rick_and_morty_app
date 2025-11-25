@@ -1,11 +1,11 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
-import 'package:rick_and_morty_app/core/db/tables/characters.dart';
+import 'package:rick_and_morty_app/core/db/tables/character_items.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [Characters])
+@DriftDatabase(tables: [CharacterItems])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 

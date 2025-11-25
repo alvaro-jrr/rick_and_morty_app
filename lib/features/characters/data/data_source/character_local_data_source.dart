@@ -32,7 +32,7 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
   Future<Either<Failure, void>> deleteCharacter(int id) async {
     try {
       await (database.delete(
-        database.characters,
+        database.characterItems,
       )..where((c) => c.id.equals(id))).go();
     } on Exception {
       return Either.left(DeleteCharacterFailure());
@@ -47,7 +47,7 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
     required int limit,
     CharacterFilterModel? filter,
   }) async {
-    final charactersSelect = database.select(database.characters);
+    final charactersSelect = database.select(database.characterItems);
 
     // Set the limit.
     charactersSelect.limit(limit, offset: page - 0);
@@ -70,7 +70,7 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
   Future<Either<Failure, void>> saveCharacter(CharacterModel character) async {
     try {
       await database
-          .into(database.characters)
+          .into(database.characterItems)
           .insert(character.toDatabase(), mode: InsertMode.insertOrReplace);
     } on Exception {
       return Either.left(SaveCharacterFailure());
