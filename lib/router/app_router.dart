@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:rick_and_morty_app/features/characters/presentation/view/characters_api_page.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/view/characters_prefs_page.dart';
 
 part 'app_router.g.dart';
 
@@ -25,6 +26,11 @@ class ApiListPageRoute extends GoRouteData with $ApiListPageRoute {
 )
 class PrefsListPageRoute extends GoRouteData with $PrefsListPageRoute {
   const PrefsListPageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return CharactersPrefsPage();
+  }
 }
 
 class NewPrefsPageRoute extends GoRouteData with $NewPrefsPageRoute {

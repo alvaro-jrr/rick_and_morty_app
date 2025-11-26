@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CharactersEmpty extends StatelessWidget {
-  const CharactersEmpty({super.key});
+  /// The [message] on empty state.
+  final String message;
+
+  const CharactersEmpty({super.key, this.message = ''});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.shrink();
+    if (message.isEmpty) return SizedBox();
+
+    return Center(child: Text(message));
   }
 }
