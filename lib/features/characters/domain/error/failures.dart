@@ -18,6 +18,18 @@ class SaveCharacterFailure extends Failure {
   ]);
 }
 
+class CharacterNotFoundFailure extends Failure {
+  const CharacterNotFoundFailure([
+    super.message = "El personaje no fue encontrado",
+  ]);
+}
+
+class UpdateCharacterFailure extends Failure {
+  const UpdateCharacterFailure([
+    super.message = "Ocurrió un error al actualizar personaje",
+  ]);
+}
+
 class NoCharactersFoundFailure extends Failure {
   const NoCharactersFoundFailure([
     super.message = "No se encontraron personajes con los filtros aplicados",

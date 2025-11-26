@@ -6,6 +6,7 @@ import 'package:rick_and_morty_app/core/error/failures.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/character_filter_model.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/character_model.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/paginated_character_model.dart';
+import 'package:rick_and_morty_app/features/characters/data/models/unsaved_character_model.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/pagination_info.dart';
 import 'package:rick_and_morty_app/features/characters/domain/error/failures.dart';
 
@@ -18,7 +19,12 @@ abstract class CharacterLocalDataSource {
   });
 
   /// Saves the [character].
-  Future<Either<Failure, void>> saveCharacter(CharacterModel character);
+  Future<Either<Failure, CharacterModel>> saveCharacter(
+    UnsavedCharacterModel character,
+  );
+
+  /// Updates the [character].
+  Future<Either<Failure, void>> updateCharacter(CharacterModel character);
 
   /// Removes the character with the given [id].
   Future<Either<Failure, void>> deleteCharacter(int id);
@@ -76,16 +82,52 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
   }
 
   @override
-  Future<Either<Failure, void>> saveCharacter(CharacterModel character) async {
+  Future<Either<Failure, CharacterModel>> saveCharacter(
+    UnsavedCharacterModel character,
+  ) async {
     try {
-      await database
+      final id = await database
           .into(database.characterItems)
           .insert(character.toDatabase(), mode: InsertMode.insertOrReplace);
+
+      final savedCharacter = await _getById(id);
+
+      return Either.right(savedCharacter!);
     } on Exception {
       return Either.left(SaveCharacterFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateCharacter(
+    CharacterModel character,
+  ) async {
+    // Verify if it's saved.
+    final exists = await _getById(character.id).then((c) => c != null);
+
+    if (!exists) {
+      return Either.left(CharacterNotFoundFailure());
+    }
+
+    // Update it.
+    try {
+      await (database.update(
+        database.characterItems,
+      )..where((c) => c.id.equals(character.id))).write(character.toDatabase());
+    } catch (e) {
+      return Either.left(UpdateCharacterFailure());
+    }
 
     return Either.right(null);
+  }
+
+  /// Returns the character with the given [id].
+  Future<CharacterModel?> _getById(int id) async {
+    final result = await (database.select(
+      database.characterItems,
+    )..where((c) => c.id.equals(id))).getSingleOrNull();
+
+    return result != null ? CharacterModel.fromDatabase(result) : null;
   }
 
   /// Returns the count of the characters that matches the [filter].

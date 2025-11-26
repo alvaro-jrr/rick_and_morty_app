@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
+import 'package:rick_and_morty_app/features/characters/domain/entities/character_status.dart';
 
 class CharacterItem extends StatelessWidget {
   /// The [character] to display.

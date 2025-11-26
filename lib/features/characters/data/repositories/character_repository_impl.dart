@@ -5,9 +5,11 @@ import 'package:rick_and_morty_app/features/characters/data/data_source/characte
 import 'package:rick_and_morty_app/features/characters/data/data_source/character_remote_data_source.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/character_filter_model.dart';
 import 'package:rick_and_morty_app/features/characters/data/models/character_model.dart';
+import 'package:rick_and_morty_app/features/characters/data/models/unsaved_character_model.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character_filter.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/paginated_character.dart';
+import 'package:rick_and_morty_app/features/characters/domain/entities/unsaved_character.dart';
 import 'package:rick_and_morty_app/features/characters/domain/repositories/character_repository.dart';
 
 class CharacterRepositoryImpl implements CharacterRepository {
@@ -52,7 +54,20 @@ class CharacterRepositoryImpl implements CharacterRepository {
   }
 
   @override
-  Future<Either<Failure, void>> saveCharacter(Character character) {
+  Future<Either<Failure, Character>> saveCharacter(UnsavedCharacter character) {
+    final characterModel = UnsavedCharacterModel(
+      name: character.name,
+      status: character.status,
+      species: character.species,
+      gender: character.gender,
+      image: character.image,
+    );
+
+    return localDataSource.saveCharacter(characterModel);
+  }
+
+  @override
+  Future<Either<Failure, void>> updateCharacter(Character character) {
     final characterModel = CharacterModel(
       id: character.id,
       name: character.name,
@@ -62,6 +77,6 @@ class CharacterRepositoryImpl implements CharacterRepository {
       image: character.image,
     );
 
-    return localDataSource.saveCharacter(characterModel);
+    return localDataSource.updateCharacter(characterModel);
   }
 }

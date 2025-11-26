@@ -1,57 +1,18 @@
-import 'package:equatable/equatable.dart';
+import 'package:rick_and_morty_app/features/characters/domain/entities/unsaved_character.dart';
 
-enum CharacterStatus {
-  alive,
-  dead,
-  unknown;
-
-  /// Returns the [label].
-  String get label {
-    return switch (this) {
-      CharacterStatus.alive => 'Vivo',
-      CharacterStatus.dead => 'Muerto',
-      CharacterStatus.unknown => 'Desconocido',
-    };
-  }
-
-  /// Wether the character is [alive].
-  bool isAlive() => this == CharacterStatus.alive;
-
-  /// Wether the character is [dead].
-  bool isDead() => this == CharacterStatus.dead;
-
-  /// Wether the character status is [unknown].
-  bool isUnknown() => this == CharacterStatus.unknown;
-}
-
-class Character extends Equatable {
+class Character extends UnsavedCharacter {
   /// The character [id].
   final int id;
 
-  /// The character [name].
-  final String name;
-
-  /// The character [status].
-  final CharacterStatus status;
-
-  /// The character [species].
-  final String species;
-
-  /// The character [gender].
-  final String gender;
-
-  /// The character [image].
-  final String image;
-
   const Character({
     required this.id,
-    required this.name,
-    required this.status,
-    required this.species,
-    required this.gender,
-    required this.image,
+    required super.name,
+    required super.status,
+    required super.species,
+    required super.gender,
+    required super.image,
   });
 
   @override
-  List<Object?> get props => [id, name, status, species, gender, image];
+  List<Object?> get props => [id, ...super.props];
 }
