@@ -7,7 +7,7 @@ import 'package:rick_and_morty_app/features/characters/domain/entities/character
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/api_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_state.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_empty.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_empty.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_search_text_field.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_failure.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_loading.dart';
@@ -58,11 +58,7 @@ class _CharactersPrefsPageState extends State<CharactersPrefsPage> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
-          title: Text('Personajes guardados'),
-          backgroundColor: Theme.of(context).colorScheme.inverseSurface,
-        ),
+        appBar: AppBar(title: Text('Personajes guardados')),
         body: Column(
           children: [
             // Search.

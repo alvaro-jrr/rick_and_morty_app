@@ -11,9 +11,9 @@ import 'package:rick_and_morty_app/features/characters/presentation/cubit/api_st
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/new_preference_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/new_preference_state.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_cubit.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_empty.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/view/new_character_form_dialog.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_search_text_field.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_empty.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_failure.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_loading.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_populated.dart';
@@ -35,8 +35,6 @@ class NewCharacterPrefView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return BlocListener<NewPreferenceCubit, NewPreferenceState>(
       listener: (context, state) {
         if (state.status == NewPreferenceStatus.success) {
@@ -46,11 +44,7 @@ class NewCharacterPrefView extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: theme.colorScheme.inverseSurface,
-          foregroundColor: theme.colorScheme.onInverseSurface,
-          title: Text('Selecciona un personaje'),
-        ),
+        appBar: AppBar(title: Text('Selecciona un personaje')),
         body: Column(
           children: [
             // Search.

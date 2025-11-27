@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character_filter.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/api_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/api_state.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_empty.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_empty.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_search_text_field.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_failure.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_loading.dart';
@@ -37,11 +37,6 @@ class _CharactersApiPageState extends State<CharactersApiPage> {
           fit: BoxFit.contain,
           height: kToolbarHeight * 0.6,
         ),
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
-        backgroundColor: Theme.of(context).colorScheme.inverseSurface,
-        surfaceTintColor: Colors.transparent,
         actions: [
           IconButton(
             onPressed: () => PrefsListPageRoute().push(context),

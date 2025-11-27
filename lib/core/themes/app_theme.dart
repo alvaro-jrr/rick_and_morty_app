@@ -345,6 +345,13 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: colorScheme.surface,
     canvasColor: colorScheme.surface,
+    appBarTheme: AppBarThemeData(
+      backgroundColor: colorScheme.inverseSurface,
+      foregroundColor: colorScheme.onInverseSurface,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+    ),
   );
 
   List<ExtendedColor> get extendedColors => [];
