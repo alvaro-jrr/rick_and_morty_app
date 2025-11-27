@@ -27,6 +27,9 @@ class PreferenceState extends Equatable {
   /// The next page number.
   final int nextPage;
 
+  /// The pagination [limit].
+  final int limit;
+
   /// Wether there's a next page.
   final bool hasNextPage;
 
@@ -42,6 +45,9 @@ class PreferenceState extends Equatable {
   /// The current [status].
   final PreferenceStatus status;
 
+  /// The latest deleted character.
+  final Character? deletedCharacter;
+
   const PreferenceState({
     this.nextPage = 1,
     this.hasNextPage = true,
@@ -49,6 +55,8 @@ class PreferenceState extends Equatable {
     this.failure,
     this.filter,
     this.status = PreferenceStatus.initial,
+    this.deletedCharacter,
+    this.limit = 50,
   });
 
   /// Returns an [PreferenceState] copy with the given values.
@@ -59,6 +67,8 @@ class PreferenceState extends Equatable {
     Failure? Function()? failure,
     CharacterFilter? filter,
     PreferenceStatus? status,
+    Character? Function()? deletedCharacter,
+    int? limit,
   }) {
     return PreferenceState(
       nextPage: nextPage ?? this.nextPage,
@@ -67,6 +77,10 @@ class PreferenceState extends Equatable {
       failure: failure != null ? failure() : this.failure,
       filter: filter ?? this.filter,
       status: status ?? this.status,
+      deletedCharacter: deletedCharacter != null
+          ? deletedCharacter()
+          : this.deletedCharacter,
+      limit: limit ?? this.limit,
     );
   }
 
@@ -78,5 +92,7 @@ class PreferenceState extends Equatable {
     failure,
     filter,
     status,
+    deletedCharacter,
+    limit,
   ];
 }

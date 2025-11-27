@@ -31,63 +31,104 @@ class _CharactersPrefsPageState extends State<CharactersPrefsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
-        title: Text('Personajes guardados'),
-        backgroundColor: Theme.of(context).colorScheme.inverseSurface,
-      ),
-      body: Column(
-        children: [
-          // Search.
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: CharacterSearchTextField(
-              onSearch: (name) => context
-                  .read<PreferenceCubit>()
-                  .fetchCharacters(filter: CharacterFilter(name: name)),
-            ),
-          ),
-          // View.
-          Expanded(
-            child: BlocBuilder<PreferenceCubit, PreferenceState>(
-              builder: (context, state) {
-                if (state.characters.isEmpty) {
-                  if (state.status.isLoading) return CharactersLoading();
+    return BlocListener<PreferenceCubit, PreferenceState>(
+      listenWhen: (previous, current) {
+        // Handle character deleted.
+        final isCharacterDeleted =
+            current.deletedCharacter != null &&
+            previous.deletedCharacter != current.deletedCharacter;
 
-                  if (state.status.isFailure) {
-                    return CharactersFailure(
-                      failure: state.failure,
-                      onRetry: () => context.read<PreferenceCubit>().retry(),
+        if (isCharacterDeleted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Personaje eliminado')));
+
+          return false;
+        }
+
+        return true;
+      },
+      listener: (context, state) {
+        // Handle failure.
+        if (state.status.isFailure && state.failure != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.failure!.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+
+          return;
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
+          title: Text('Personajes guardados'),
+          backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+        ),
+        body: Column(
+          children: [
+            // Search.
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CharacterSearchTextField(
+                onSearch: (name) => context
+                    .read<PreferenceCubit>()
+                    .fetchCharacters(filter: CharacterFilter(name: name)),
+              ),
+            ),
+            // View.
+            Expanded(
+              child: BlocBuilder<PreferenceCubit, PreferenceState>(
+                builder: (context, state) {
+                  if (state.characters.isEmpty) {
+                    if (state.status.isLoading) return CharactersLoading();
+
+                    if (state.status.isFailure) {
+                      return CharactersFailure(
+                        failure: state.failure,
+                        onRetry: () => context.read<PreferenceCubit>().retry(),
+                      );
+                    }
+
+                    return CharactersEmpty(
+                      message: 'No se encontraron personajes',
                     );
                   }
 
-                  return CharactersEmpty(
-                    message: 'No hay personajes guardados',
+                  return CharactersPopulated(
+                    characters: state.characters,
+                    isLoading: context.select<PreferenceCubit, bool>(
+                      (cubit) => cubit.state.status.isLoading,
+                    ),
+                    onLoadMore: () =>
+                        context.read<PreferenceCubit>().loadNextPage(),
+                    trailing: (character) {
+                      return IconButton(
+                        onPressed: () {
+                          context.read<PreferenceCubit>().deleteCharacter(
+                            character,
+                          );
+                        },
+                        icon: Icon(Icons.delete),
+                      );
+                    },
                   );
-                }
-
-                return CharactersPopulated(
-                  characters: state.characters,
-                  isLoading: context.select<PreferenceCubit, bool>(
-                    (cubit) => cubit.state.status.isLoading,
-                  ),
-                  onLoadMore: () =>
-                      context.read<PreferenceCubit>().loadNextPage(),
-                );
-              },
+                },
+              ),
             ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Load the characters from API.
-          context.read<ApiCubit>().fetchCharacters(refresh: true);
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Load the characters from API.
+            context.read<ApiCubit>().fetchCharacters(refresh: true);
 
-          NewPrefsPageRoute().push(context);
-        },
-        child: Icon(Icons.add),
+            NewPrefsPageRoute().push(context);
+          },
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }

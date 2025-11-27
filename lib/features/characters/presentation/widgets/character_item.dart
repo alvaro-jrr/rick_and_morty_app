@@ -10,7 +10,15 @@ class CharacterItem extends StatelessWidget {
   /// The callback when the [character] is tapped.
   final VoidCallback? onTap;
 
-  const CharacterItem({super.key, required this.character, this.onTap});
+  /// The [trailing] widget.
+  final Widget? trailing;
+
+  const CharacterItem({
+    super.key,
+    required this.character,
+    this.onTap,
+    this.trailing,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +44,7 @@ class CharacterItem extends StatelessWidget {
           Text(character.status.label),
         ],
       ),
+      trailing: trailing,
     );
   }
 }

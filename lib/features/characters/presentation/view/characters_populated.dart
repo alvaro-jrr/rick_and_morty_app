@@ -16,12 +16,16 @@ class CharactersPopulated extends StatelessWidget {
   /// The callback when a character is tapped.
   final void Function(Character character)? onCharacterTap;
 
+  /// The [trailing] for each item.
+  final Widget? Function(Character character)? trailing;
+
   const CharactersPopulated({
     super.key,
     required this.characters,
     required this.onLoadMore,
     this.isLoading = false,
     this.onCharacterTap,
+    this.trailing,
   });
 
   @override
@@ -55,6 +59,7 @@ class CharactersPopulated extends StatelessWidget {
             onTap: onCharacterTap != null
                 ? () => onCharacterTap!(character)
                 : null,
+            trailing: trailing != null ? trailing!(character) : null,
           );
         },
       ),

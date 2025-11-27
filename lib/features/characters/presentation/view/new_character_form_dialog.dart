@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rick_and_morty_app/core/error/failures.dart';
 
+import 'package:rick_and_morty_app/core/error/failures.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/unsaved_character.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/new_preference_cubit.dart';

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 
+import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character_filter.dart';
 import 'package:rick_and_morty_app/features/characters/domain/repositories/character_repository.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_state.dart';
@@ -36,7 +39,11 @@ class PreferenceCubit extends Cubit<PreferenceState> {
 
     // Fetch the list.
     final failureOrCharactersPage = await _characterRepository
-        .getLocalCharacters(page: state.nextPage, limit: 50, filter: filter);
+        .getLocalCharacters(
+          page: state.nextPage,
+          limit: state.limit,
+          filter: filter,
+        );
 
     if (isClosed) return;
 
@@ -79,5 +86,41 @@ class PreferenceCubit extends Cubit<PreferenceState> {
     if (state.status.isLoading || !state.hasNextPage) return;
 
     return fetchCharacters(filter: state.filter);
+  }
+
+  /// Deletes a [character].
+  Future<void> deleteCharacter(Character character) async {
+    final failureOrSuccess = await _characterRepository.deleteCharacter(
+      character.id,
+    );
+
+    failureOrSuccess.fold(
+      ifLeft: (failure) {
+        emit(
+          state.copyWith(
+            status: PreferenceStatus.failure,
+            failure: () => failure,
+            deletedCharacter: () => null,
+          ),
+        );
+      },
+      ifRight: (_) {
+        final characters = state.characters
+            .where((c) => c.id != character.id)
+            .toList();
+
+        final nextPage = (characters.length / state.limit).ceil();
+
+        emit(
+          state.copyWith(
+            characters: characters,
+            nextPage: nextPage,
+            status: PreferenceStatus.success,
+            failure: () => null,
+            deletedCharacter: () => character,
+          ),
+        );
+      },
+    );
   }
 }
