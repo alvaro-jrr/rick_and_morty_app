@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:rick_and_morty_app/core/utils/snackbar_notifier.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character_filter.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/api_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_cubit.dart';
@@ -39,9 +40,10 @@ class _CharactersPrefsPageState extends State<CharactersPrefsPage> {
             previous.deletedCharacter != current.deletedCharacter;
 
         if (isCharacterDeleted) {
-          ScaffoldMessenger.of(
+          SnackbarNotifier.success(
             context,
-          ).showSnackBar(SnackBar(content: Text('Personaje eliminado')));
+            message: 'Personaje eliminado con éxito',
+          );
 
           return false;
         }
@@ -51,13 +53,7 @@ class _CharactersPrefsPageState extends State<CharactersPrefsPage> {
       listener: (context, state) {
         // Handle failure.
         if (state.status.isFailure && state.failure != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.failure!.message),
-              backgroundColor: Colors.red,
-            ),
-          );
-
+          SnackbarNotifier.error(context, message: state.failure!.message);
           return;
         }
       },

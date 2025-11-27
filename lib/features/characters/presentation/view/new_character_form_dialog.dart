@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:rick_and_morty_app/core/error/failures.dart';
+import 'package:rick_and_morty_app/core/utils/snackbar_notifier.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/unsaved_character.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/new_preference_cubit.dart';
@@ -52,8 +53,9 @@ class _NewCharacterFormDialogState extends State<NewCharacterFormDialog> {
       listener: (context, state) {
         // Notify success.
         if (state.status == NewPreferenceStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Personaje guardado con éxito')),
+          SnackbarNotifier.success(
+            context,
+            message: 'Personaje guardado con éxito',
           );
 
           // Close the dialog.
