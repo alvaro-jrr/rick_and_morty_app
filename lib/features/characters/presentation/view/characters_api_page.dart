@@ -6,10 +6,10 @@ import 'package:rick_and_morty_app/features/characters/domain/entities/character
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/api_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/api_state.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/view/characters_empty.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_failure.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_loading.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_populated.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_search_text_field.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_failure.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_loading.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_populated.dart';
 import 'package:rick_and_morty_app/router/app_router.dart';
 
 class CharactersApiPage extends StatefulWidget {

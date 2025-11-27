@@ -12,11 +12,11 @@ import 'package:rick_and_morty_app/features/characters/presentation/cubit/new_pr
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/new_preference_state.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/view/characters_empty.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_failure.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_loading.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/view/characters_populated.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/view/new_character_form_dialog.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_search_text_field.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_failure.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_loading.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_populated.dart';
 
 class NewCharacterPrefPage extends StatelessWidget {
   const NewCharacterPrefPage({super.key});
