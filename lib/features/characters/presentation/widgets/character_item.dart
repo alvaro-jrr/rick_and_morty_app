@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
-import 'package:rick_and_morty_app/features/characters/domain/entities/character_status.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_status_icon.dart';
 
 class CharacterItem extends StatelessWidget {
   /// The [character] to display.
@@ -32,15 +32,7 @@ class CharacterItem extends StatelessWidget {
       subtitle: Row(
         spacing: 4,
         children: [
-          Icon(
-            Icons.circle,
-            size: 16,
-            color: switch (character.status) {
-              CharacterStatus.alive => Colors.green,
-              CharacterStatus.dead => Colors.red,
-              CharacterStatus.unknown => Colors.grey,
-            },
-          ),
+          CharacterStatusIcon(status: character.status, size: 16.0),
           Text(character.status.label),
         ],
       ),

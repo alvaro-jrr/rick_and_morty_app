@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/view/characters_api_page.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/view/characters_prefs_page.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/view/new_character_pref_page.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/view/pref_character_detail_page.dart';
 
 part 'app_router.g.dart';
 
@@ -48,6 +49,11 @@ class PrefsDetailPageRoute extends GoRouteData with $PrefsDetailPageRoute {
   final int id;
 
   const PrefsDetailPageRoute({required this.id});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PrefCharacterDetailPage(characterId: id);
+  }
 }
 
 /// The app router handler.

@@ -18,6 +18,9 @@ abstract class CharacterLocalDataSource {
     CharacterFilterModel? filter,
   });
 
+  /// Gets the character by [id].
+  Future<Either<Failure, CharacterModel?>> getCharacterById(int id);
+
   /// Saves the [character].
   Future<Either<Failure, CharacterModel>> saveCharacter(
     UnsavedCharacterModel character,
@@ -90,9 +93,12 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
           .into(database.characterItems)
           .insert(character.toDatabase(), mode: InsertMode.insertOrReplace);
 
-      final savedCharacter = await _getById(id);
-
-      return Either.right(savedCharacter!);
+      return getCharacterById(id).then((failureOrCharacter) {
+        return failureOrCharacter.fold(
+          ifLeft: (failure) => Either.left(failure),
+          ifRight: (character) => Either.right(character!),
+        );
+      });
     } on Exception {
       return Either.left(SaveCharacterFailure());
     }
@@ -103,7 +109,14 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
     CharacterModel character,
   ) async {
     // Verify if it's saved.
-    final exists = await _getById(character.id).then((c) => c != null);
+    final exists = await getCharacterById(character.id).then((
+      failureOrCharacter,
+    ) {
+      return failureOrCharacter.fold(
+        ifLeft: (_) => false,
+        ifRight: (character) => character != null,
+      );
+    });
 
     if (!exists) {
       return Either.left(CharacterNotFoundFailure());
@@ -121,13 +134,19 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
     return Either.right(null);
   }
 
-  /// Returns the character with the given [id].
-  Future<CharacterModel?> _getById(int id) async {
-    final result = await (database.select(
-      database.characterItems,
-    )..where((c) => c.id.equals(id))).getSingleOrNull();
+  @override
+  Future<Either<Failure, CharacterModel?>> getCharacterById(int id) async {
+    try {
+      final result = await (database.select(
+        database.characterItems,
+      )..where((c) => c.id.equals(id))).getSingleOrNull();
 
-    return result != null ? CharacterModel.fromDatabase(result) : null;
+      return Either.right(
+        result != null ? CharacterModel.fromDatabase(result) : null,
+      );
+    } catch (e) {
+      return Either.left(UnexpectedFailure());
+    }
   }
 
   /// Returns the count of the characters that matches the [filter].

@@ -79,4 +79,9 @@ class CharacterRepositoryImpl implements CharacterRepository {
 
     return localDataSource.updateCharacter(characterModel);
   }
+
+  @override
+  Future<Either<Failure, Character?>> getLocalCharacterById(int id) {
+    return localDataSource.getCharacterById(id);
+  }
 }

@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:rick_and_morty_app/core/error/failures.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
 
-enum NewPreferenceStatus { initial, loading, success, failure }
+enum NewPreferenceStatus { initial, success, failure }
 
 class NewPreferenceState extends Equatable {
   /// The new preference status.

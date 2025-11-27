@@ -96,6 +96,9 @@ class _CharactersPrefsPageState extends State<CharactersPrefsPage> {
                     ),
                     onLoadMore: () =>
                         context.read<PreferenceCubit>().loadNextPage(),
+                    onCharacterTap: (character) {
+                      PrefsDetailPageRoute(id: character.id).push(context);
+                    },
                     trailing: (character) {
                       return IconButton(
                         onPressed: () {

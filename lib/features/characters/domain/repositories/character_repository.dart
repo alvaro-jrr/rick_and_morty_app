@@ -28,4 +28,7 @@ abstract class CharacterRepository {
 
   /// Deletes a character by [id].
   Future<Either<Failure, void>> deleteCharacter(int id);
+
+  /// Gets the character by ID.
+  Future<Either<Failure, Character?>> getLocalCharacterById(int id);
 }
