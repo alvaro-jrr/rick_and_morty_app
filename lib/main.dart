@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => di.sl<PreferenceCubit>()),
       ],
       child: MaterialApp.router(
-        title: 'Flutter Demo',
+        title: 'Rick and Morty App',
         theme: AppTheme().light(),
         routerConfig: appRouter,
       ),
