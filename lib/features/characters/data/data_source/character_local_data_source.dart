@@ -58,7 +58,7 @@ class CharacterLocalDataSourceImpl implements CharacterLocalDataSource {
     final charactersSelect = database.select(database.characterItems);
 
     // Set the limit.
-    charactersSelect.limit(limit, offset: page - 0);
+    charactersSelect.limit(limit, offset: page - 1);
 
     // Add filters.
     if (filter?.name != null) {
