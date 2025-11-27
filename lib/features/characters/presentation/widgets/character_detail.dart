@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_avatar.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_status_icon.dart';
 
 class CharacterDetail extends StatelessWidget {
@@ -15,15 +16,12 @@ class CharacterDetail extends StatelessWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final descriptionIconColor = theme.colorScheme.primary;
 
-    return Padding(
+    return SingleChildScrollView(
       padding: EdgeInsetsGeometry.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(character.image),
-            radius: screenWidth / 6,
-          ),
+          CharacterAvatar(image: character.image, size: screenWidth * 0.4),
           const SizedBox(height: 16.0),
           Text(
             character.name,

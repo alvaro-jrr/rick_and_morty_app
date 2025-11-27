@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_avatar.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_status_icon.dart';
 
 class CharacterItem extends StatelessWidget {
@@ -23,7 +24,7 @@ class CharacterItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(backgroundImage: NetworkImage(character.image)),
+      leading: CharacterAvatar(image: character.image),
       title: Text(
         character.name,
         style: TextStyle(fontWeight: FontWeight.w500),
