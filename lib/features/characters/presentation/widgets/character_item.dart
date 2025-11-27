@@ -7,7 +7,10 @@ class CharacterItem extends StatelessWidget {
   /// The [character] to display.
   final Character character;
 
-  const CharacterItem({super.key, required this.character});
+  /// The callback when the [character] is tapped.
+  final VoidCallback? onTap;
+
+  const CharacterItem({super.key, required this.character, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +20,7 @@ class CharacterItem extends StatelessWidget {
         character.name,
         style: TextStyle(fontWeight: FontWeight.w500),
       ),
+      onTap: onTap,
       subtitle: Row(
         spacing: 4,
         children: [

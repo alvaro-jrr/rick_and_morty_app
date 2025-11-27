@@ -56,7 +56,7 @@ class _CharactersApiPageState extends State<CharactersApiPage> {
             padding: const EdgeInsets.all(16.0),
             child: CharacterSearchTextField(
               onSearch: (name) => context.read<ApiCubit>().fetchCharacters(
-                CharacterFilter(name: name),
+                filter: CharacterFilter(name: name),
               ),
             ),
           ),

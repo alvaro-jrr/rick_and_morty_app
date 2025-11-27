@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rick_and_morty_app/features/characters/domain/entities/character_filter.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/cubit/api_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_state.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/view/characters_empty.dart';
@@ -81,6 +82,9 @@ class _CharactersPrefsPageState extends State<CharactersPrefsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          // Load the characters from API.
+          context.read<ApiCubit>().fetchCharacters(refresh: true);
+
           NewPrefsPageRoute().push(context);
         },
         child: Icon(Icons.add),

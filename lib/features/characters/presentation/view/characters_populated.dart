@@ -13,11 +13,15 @@ class CharactersPopulated extends StatelessWidget {
   /// The callback to load the next page.
   final VoidCallback onLoadMore;
 
+  /// The callback when a character is tapped.
+  final void Function(Character character)? onCharacterTap;
+
   const CharactersPopulated({
     super.key,
     required this.characters,
     required this.onLoadMore,
     this.isLoading = false,
+    this.onCharacterTap,
   });
 
   @override
@@ -44,7 +48,14 @@ class CharactersPopulated extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return CharacterItem(character: characters[index]);
+          final character = characters[index];
+
+          return CharacterItem(
+            character: character,
+            onTap: onCharacterTap != null
+                ? () => onCharacterTap!(character)
+                : null,
+          );
         },
       ),
     );

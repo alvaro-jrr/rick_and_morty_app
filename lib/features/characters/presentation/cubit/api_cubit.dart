@@ -11,8 +11,11 @@ class ApiCubit extends Cubit<ApiState> {
   ApiCubit(this._characterRepository) : super(ApiState());
 
   /// Fetches the characters.
-  Future<void> fetchCharacters([CharacterFilter? filter]) async {
-    final reset = state.filter != filter;
+  Future<void> fetchCharacters({
+    CharacterFilter? filter,
+    bool refresh = false,
+  }) async {
+    final reset = refresh || state.filter != filter;
 
     if (reset) {
       // Update filter.
@@ -62,7 +65,7 @@ class ApiCubit extends Cubit<ApiState> {
   /// Retries the last characters fetch when a failure occurred.
   Future<void> retry() async {
     if (state.status.isFailure || state.failure != null) {
-      return fetchCharacters(state.filter);
+      return fetchCharacters(filter: state.filter);
     }
   }
 
@@ -70,6 +73,6 @@ class ApiCubit extends Cubit<ApiState> {
   Future<void> loadNextPage() async {
     if (state.status.isLoading || !state.hasNextPage) return;
 
-    return fetchCharacters(state.filter);
+    return fetchCharacters(filter: state.filter);
   }
 }
