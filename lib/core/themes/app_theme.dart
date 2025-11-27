@@ -352,6 +352,9 @@ class AppTheme {
       elevation: 0,
       scrolledUnderElevation: 0,
     ),
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: {TargetPlatform.android: ZoomPageTransitionsBuilder()},
+    ),
   );
 
   List<ExtendedColor> get extendedColors => [];
