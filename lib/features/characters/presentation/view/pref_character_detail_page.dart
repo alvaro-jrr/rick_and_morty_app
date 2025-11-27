@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:rick_and_morty_app/core/utils/confirm_dialog.dart';
 import 'package:rick_and_morty_app/di.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/get_preference_detail_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/get_preference_detail_state.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_cubit.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_state.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_detail.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_empty.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_loading.dart';
@@ -33,51 +35,59 @@ class PrefCharacterDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          // Delete character button.
-          BlocSelector<
-            GetPreferenceDetailCubit,
-            GetPreferenceDetailState,
-            Character?
-          >(
-            selector: (state) => state.character,
-            builder: (context, character) {
-              if (character == null) return SizedBox();
+    // Get the fetched character.
+    final character = context.select<GetPreferenceDetailCubit, Character?>(
+      (cubit) => cubit.state.character,
+    );
 
-              return IconButton(
+    return BlocListener<PreferenceCubit, PreferenceState>(
+      listener: (context, state) {
+        // Go back to previous page when character has been deleted.
+        if (character != null && state.deletedCharacter?.id == character.id) {
+          context.pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            // Delete character button.
+            if (character != null)
+              IconButton(
                 onPressed: () {
-                  // Delete the character.
-                  context.read<PreferenceCubit>().deleteCharacter(character);
-
-                  // Go back to previous page.
-                  context.pop();
+                  ConfirmDialog.show(
+                    context,
+                    title: '¿Estás seguro de eliminar a ${character.name}?',
+                    onAccept: () {
+                      // Delete the character.
+                      context.read<PreferenceCubit>().deleteCharacter(
+                        character,
+                      );
+                    },
+                  );
                 },
                 icon: Icon(Icons.delete),
-              );
-            },
-          ),
-        ],
-      ),
-      body: BlocBuilder<GetPreferenceDetailCubit, GetPreferenceDetailState>(
-        builder: (context, state) {
-          final character = state.character;
+              ),
+          ],
+        ),
+        body: BlocBuilder<GetPreferenceDetailCubit, GetPreferenceDetailState>(
+          builder: (context, state) {
+            final character = state.character;
 
-          if (character == null) {
-            if (state.status == GetPreferenceDetailStatus.loading) {
-              return CharactersLoading();
+            if (character == null) {
+              if (state.status == GetPreferenceDetailStatus.loading) {
+                return CharactersLoading();
+              }
+
+              if (state.status == GetPreferenceDetailStatus.failure) {
+                return CharactersEmpty(message: state.failure?.message ?? '');
+              }
+
+              return CharactersEmpty();
             }
 
-            if (state.status == GetPreferenceDetailStatus.failure) {
-              return CharactersEmpty(message: state.failure?.message ?? '');
-            }
-
-            return CharactersEmpty();
-          }
-
-          return CharacterDetail(character: character);
-        },
+            return CharacterDetail(character: character);
+          },
+        ),
       ),
     );
   }

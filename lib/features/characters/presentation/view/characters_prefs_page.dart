@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:rick_and_morty_app/core/utils/confirm_dialog.dart';
 import 'package:rick_and_morty_app/core/utils/snackbar_notifier.dart';
 import 'package:rick_and_morty_app/features/characters/domain/entities/character_filter.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/api_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_cubit.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/cubit/preference_state.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_empty.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/character_search_text_field.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_empty.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_failure.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_loading.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/characters_populated.dart';
@@ -102,8 +103,15 @@ class _CharactersPrefsPageState extends State<CharactersPrefsPage> {
                     trailing: (character) {
                       return IconButton(
                         onPressed: () {
-                          context.read<PreferenceCubit>().deleteCharacter(
-                            character,
+                          ConfirmDialog.show(
+                            context,
+                            title:
+                                '¿Estás seguro de eliminar a ${character.name}?',
+                            onAccept: () {
+                              context.read<PreferenceCubit>().deleteCharacter(
+                                character,
+                              );
+                            },
                           );
                         },
                         icon: Icon(Icons.delete),
